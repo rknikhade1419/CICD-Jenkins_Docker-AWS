@@ -43,7 +43,6 @@ pipeline {
             steps {
                 echo 'Deploying to Production Server'
                 sshagent(['ssh-creds']) {
-                 {
                     sh """
                     docker save ${DOCKER_IMAGE}:${DOCKER_TAG} > myapp.tar
                     scp -o StrictHostKeyChecking=no myapp.tar ${PROD_SERVER}:/tmp/myapp.tar
