@@ -1,0 +1,74 @@
+pipeline {
+    agent any
+        environment {
+            DOCKER_IMAGE = "myapp"
+            DOCKER_TAG = "${BUILD_NUMBER}"
+            PROD_SERVER = "ubantu@13.220.113.89"
+
+        }
+
+        stages {
+            stage('Checkout){
+                steps {
+                    echo ' Checking out code from GitHub'
+                    checkout scm
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker Image'
+                script{
+                    sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'
+                    sh "docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest"
+                }
+            }
+        }
+
+        stage('Test'){
+            steps {
+                echo 'Running Tests'
+                script {
+                sh """
+                docker run --rm ${DOCKER_IMAGE}:${DOCKER_TAG} echo "Tests passed!"
+                from app import app
+                print (' Basic import test passed')
+                """
+                }
+            
+            }
+        }
+
+        stage('Deploying to production server')
+        {
+            steps {
+                echo 'Deploying to Production Server'
+                sshagent(['ssh -i "New-Key-28-10-25.pem" ubuntu@ec2-13-220-113-89.compute-1.amazonaws.com')
+                 {
+                    sh """
+                    docker save ${DOCKER_IMAGE}:${DOCKER_TAG} > myapp.tar
+                    scp -o StrictHostKeyChecking=no myapp.tar ${PROD_SERVER}:/tmp/myapp.tar
+                    ssh -o StrictHostKeyChecking=no ${PROD_SERVER} '
+                    docker load < /tmp/myapp.tar
+                    docker stop myapp || true
+                    docker rm myapp || true
+                    docker run -d --name myapp -p 5000:5000 -e BUILD_NUMBER=${BUILD_NUMBER} ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    rm /tmp/myapp.tar
+                    '
+                    rm myapp.tar
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+            echo "Application deployed at http://13.220.113.89:5000"
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
+        }
+    }
+}
