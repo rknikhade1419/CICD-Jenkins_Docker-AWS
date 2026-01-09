@@ -28,7 +28,7 @@ HTML_TEMPLATE = '''
         <div class="container">
     <h1>Welcome to the DevOps CI/CD Demo!</h1>
     <p>Succesfully depoloyed via Jenkins -> Docker -> AWS </p>
-    <div class="version">Version: 1.0</div>
+    <div class="version">Version: 2.0</div>
     <p>Build: {{ build_number }}</p>
     </div>
     </body>
