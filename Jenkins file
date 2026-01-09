@@ -59,4 +59,20 @@ pipeline {
             echo 'Pipeline failed. Please check the logs.'
         }
     }
+    stage('Rollback) {
+        when {
+            expression { currentBuild.result = ' FAILURE'}
+        }
+        steps {
+            echo 'Rolling back to previous version ...'
+            sshagent(['production-server-ssh']) {
+            sh """
+                ssh ${PROD_SERVER} '
+                    docker stop myapp || true
+                    docker rm myapp || true
+                    docker run -d --name myapp -p 5000:5000 ${DOCKER_IMAGE}:latest
+                    '
+                    """
+        }
+    }
 }
