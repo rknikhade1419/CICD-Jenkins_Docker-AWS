@@ -3,7 +3,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "myapp"
         DOCKER_TAG = "${BUILD_NUMBER}"
-        PROD_SERVER = "ubuntu@50.16.16.8"
+        PROD_SERVER = "ubuntu@PROD_SERVER_IP"
     }
 
     stages {
