@@ -414,7 +414,7 @@ top                                    # Process monitor
 
 ## 👤 Author
 
-**Rahul Nikhade**
+**Roshankumar Nikhade**
 
 - GitHub: [@rknikhade1419](https://github.com/rknikhade1419)
 - LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
@@ -442,6 +442,6 @@ MIT License - Educational/Portfolio Project
 
 **Status:** ✅ Active | **Updated:** January 2025
 
-Made with ❤️ by Rahul Nikhade
+Made with ❤️ by Roshankumar Nikhade
 
 </div>
