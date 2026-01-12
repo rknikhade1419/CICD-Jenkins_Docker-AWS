@@ -417,8 +417,8 @@ top                                    # Process monitor
 **Roshankumar Nikhade**
 
 - GitHub: [@rknikhade1419](https://github.com/rknikhade1419)
-- LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
+- LinkedIn: [Your Profile](https://linkedin.com/in/roshankumar-nikhade-5b9577381)
+- Email: nikhaderoshankumar@gmail.com
 
 **AWS Certified Solutions Architect** | DevOps Engineer
 
